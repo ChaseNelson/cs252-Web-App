@@ -1,5 +1,15 @@
 # cs252-Web-App
 
-Chase Nelson -- nelso312@purdue.edu
+Name | Email
+-----|--------
+Chase Nelson | nelso312@purdue.edu
+Pat Fortunato | pfortuna@purdue.edu
 
-Pat Fortunato -- pfortuna@purdue.edu
+## Idea
+
+## Technologies
++ Node JS
++ Express
++ MongoDB
++ React JS
++ Handlebars
