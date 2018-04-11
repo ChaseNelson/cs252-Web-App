@@ -1,0 +1,39 @@
+/* Middle Ware */
+const express    = require('express');
+const fs         = require('fs');
+const path       = require('path');
+const formidable = require('formidable');
+const multer     = require('multer');
+const multiparty = require('multiparty');
+
+/* Setup Express */
+var app = express();
+
+app.disable('x-powered-by');
+
+const handlebars = require('express-handlebars').create({defaultLayout:'main'});
+app.engine('handlebars', handlebars.engine);
+app.set('view engine', 'handlebars');
+
+app.use(require('body-parser').urlencoded({extended:true}));
+
+app.set('port', process.env.PORT || 3000);
+app.use(express.static(__dirname + '/public'));
+
+app.use((req, res, next) => {
+  console.log("looking for URL : " + req.url);
+  next();
+});
+
+app.use((err, req, res, next) => {
+  console.log("Error : " + err.message);
+  next();
+});
+
+app.get('/', (req, res) => {
+  res.render('home');
+});
+
+app.listen(app.get('port'), () => {
+  console.log("Express started on http://localhost:" + app.get('port') + "\nPress Ctrl+C to terminate.");
+});
