@@ -14,3 +14,4 @@ A social media site
 + MongoDB
 + React JS
 + Handlebars
++ JQuery
