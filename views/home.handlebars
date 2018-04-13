@@ -1,3 +1,41 @@
-<div class="page-header">
-  <h3>Index Page</h3>
+<div class="page-header login" style="float:right">
+  <form id="login_form" action="/login" method="post">
+    <table cellspacing="0">
+      <tbody>
+        <tr>
+          <td>
+            <label for="email">Email or Phone</label>
+          </td>
+          <td>
+            <label for="pass">Password</label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="email" class="inputtext" name="email" id="email" tabindex="1">
+          </td>
+          <td>
+            <input type="password" class="inputtext" name="pass" id="pass" tabindex="2">
+          </td>
+          <td>
+            <label id="loginbutton">
+            <input value="Log In" tabindex="4" type="submit">
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/newUser">New User</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
 </div>
+
+<div class="content">
+	<h4>Welcome to the B00kF@ce</h4>
+</div>
+<footer>
+	<p><i>Created by Chase Nelson</i></p>
+</footer>
