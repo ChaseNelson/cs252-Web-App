@@ -7,7 +7,7 @@ const multer     = require('multer');
 const multiparty = require('multiparty');
 
 /* Setup Express */
-var app = express();
+let app = express();
 
 app.disable('x-powered-by');
 
@@ -33,6 +33,19 @@ app.use((err, req, res, next) => {
 app.get('/', (req, res) => {
   res.render('home');
 });
+
+app.post('/login', (req, res) => {
+  console.log(req.body.email);
+  console.log(req.body.pass);
+  res.redirect(303, '/');
+});
+
+app.use((req, res) => {
+  res.type('text/html');
+  res.status(404);
+  res.render('404');
+});
+
 
 app.listen(app.get('port'), () => {
   console.log("Express started on http://localhost:" + app.get('port') + "\nPress Ctrl+C to terminate.");
