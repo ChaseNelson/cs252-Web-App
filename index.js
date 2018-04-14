@@ -11,9 +11,22 @@ let app = express();
 
 app.disable('x-powered-by');
 
+/* Setup Handlebars */
 const handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
+
+/* Setup Firebase */
+const firebase = require('firebase').initializeApp({
+  apiKey: "AIzaSyBrJCE5BVlXicolinRD8Vl5omPA0wiq4R4",
+  authDomain: "cs252-web-app.firebaseapp.com",
+  databaseURL: "https://cs252-web-app.firebaseio.com",
+  projectId: "cs252-web-app",
+  storageBucket: "cs252-web-app.appspot.com",
+  messagingSenderId: "225077387827"
+});
+
+let ref = firebase.database().ref();
 
 app.use(require('body-parser').urlencoded({extended:true}));
 
