@@ -33,12 +33,22 @@ app.use((err, req, res, next) => {
 app.get('/', (req, res) => {
   res.render('home');
 });
-app.get('/newuser', (req, res) => {
-  res.render('newuser');
+
+app.get('/newUser', (req, res) => {
+  res.render('newUser');
 });
+
 app.post('/login', (req, res) => {
   console.log(req.body.email);
   console.log(req.body.pass);
+  res.redirect(303, '/');
+});
+
+app.post('/createUser', (req, res) => {
+  console.log(req.body.firstName);
+  console.log(req.body.lastName);
+  console.log(req.body.email);
+  console.log(req.body.password);
   res.redirect(303, '/');
 });
 
