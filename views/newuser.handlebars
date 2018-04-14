@@ -1,5 +1,8 @@
 <!-- td = row (left/right), tr = column (up/down) -->
-<div class="page-header" style="float:right">
+<div class="top-bar">
+  <h1>Create a new account to join BookFace!</h1>
+</div>
+<div class="page-header" style="float:right" id=newuser>
   <form id="newuser_form" action="/createUser" method="post">
     <table cellspacing="0">
       <tbody>
@@ -46,7 +49,10 @@
         <tr>
           <td>
             <br>
+          </div>
+          <div id ="button">
             <input value="Create New User" tableindex="5" type="submit">
+          </div>
           </td>
         </tr>
       </tbody>

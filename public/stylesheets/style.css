@@ -1,3 +1,66 @@
-body {
-  background-color: black;
+
+input[type="submit"] {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size:15px;
+  background-color: silver;
+
+}
+
+div#newuser {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  	font-size:18px;
+    position:relative;
+    text-align: center;
+    background: #669999; padding: 20px;
+    width: 100%
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox */
+    box-sizing: border-box;
+    top:-13px;
+    border-style: solid;
+     border-width: medium;
+     border-color: black;
+     border-top: black;
+     border-right: white 0px;
+
+    left:10px;
+}
+div#login{
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size:18px;
+  position:relative;
+  text-align: center;
+  background: #669999; padding: 20px;
+  width: 100%
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox */
+  box-sizing: border-box;
+  top:40px;
+  border-style: solid;
+   border-width: medium;
+   border-color: black;
+   border-top: black;
+   border-right: white 0px;
+
+  left:10px;
+
+
+}
+
+.navbar {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size:18px;
+  color:black;
+    position:fixed;
+    top:0;
+    left:0px;
+    width:100%;
+    height:65px;
+    background:#669999;
+    z-index:1000;
+    border-style: solid;
+     border-width: medium;
+    border-top: black;
+    border-left: white 0px;
+    border-right: white 0px;
 }
