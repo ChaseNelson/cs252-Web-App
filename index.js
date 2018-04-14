@@ -33,7 +33,9 @@ app.use((err, req, res, next) => {
 app.get('/', (req, res) => {
   res.render('home');
 });
-
+app.get('/newuser', (req, res) => {
+  res.render('newuser');
+});
 app.post('/login', (req, res) => {
   console.log(req.body.email);
   console.log(req.body.pass);

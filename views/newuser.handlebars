@@ -1,2 +1,52 @@
+<!-- td = row (left/right), tr = column (up/down) -->
+
 <div class="page-header" style="float:right">
-  <form id=""
+  <form id="newuser_form" action="/createuser" method="post">
+    <table cellspacing="0">
+      <tbody>
+        <tr>
+          <td>
+            <label for="firstname">First name</label>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" class="inputtext" name="firstname" id="firstname" tabindex="1">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="lastname">Last name</label>
+        </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="text" class="inputtext" name="lastname" id="lastname" tabindex="2">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="email">Email</label>
+      </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="email" class="inputtext" name="email" id="email" tabindex="3">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="password">Password</label>
+    </td>
+</tr>
+<tr>
+  <td>
+    <input type="password" class="inputtext" name="password" id="password" tabindex="4">
+  </td>
+</tr>
+<tr>
+  <td>
+    <br>
+    <input value="Create New User" tableindex="5" type="submit">
+</td>
+</tr>
