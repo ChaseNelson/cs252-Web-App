@@ -5,6 +5,7 @@ const path       = require('path');
 const formidable = require('formidable');
 const multer     = require('multer');
 const multiparty = require('multiparty');
+const md5        = require('md5');
 
 /* Setup Express */
 let app = express();
@@ -26,7 +27,7 @@ const firebase = require('firebase').initializeApp({
   messagingSenderId: "225077387827"
 });
 
-let ref = firebase.database().ref();
+const ref = firebase.database().ref();
 
 app.use(require('body-parser').urlencoded({extended:true}));
 
@@ -52,16 +53,36 @@ app.get('/newUser', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  console.log(req.body.email);
-  console.log(req.body.pass);
+  const email = req.body.email;
+  const pass  = req.body.password;
+  const auth = firebase.auth();
+
+  const promise = auth.signInWithEmailAndPassword(email, pass);
+  promise.catch(err => console.error(err.message));
+
   res.redirect(303, '/');
 });
 
 app.post('/createUser', (req, res) => {
-  console.log(req.body.firstName);
-  console.log(req.body.lastName);
-  console.log(req.body.email);
-  console.log(req.body.password);
+  const email = req.body.email;
+  const pass  = req.body.password;
+  const auth = firebase.auth();
+
+  const promise = auth.createUserWithEmailAndPassword(email, pass);
+  promise.catch(err => console.error(err.message));
+
+  firebase.auth().onAuthStateChanged(firebaseUser => {
+    if (firebaseUser) {
+      console.log(firebaseUser.uid);
+      console.log(firebaseUser.email);
+      // TODO: Make a new user in the user table
+      let userRef = firebase.database().ref('Users');
+      let data = {email: firebaseUser.email, firstName: req.body.firstName, lastName: req.body.lastName};
+      userRef.child(firebaseUser.uid).set(data);
+    } else {
+      console.log('not logged in');
+    }
+  });
   res.redirect(303, '/');
 });
 
