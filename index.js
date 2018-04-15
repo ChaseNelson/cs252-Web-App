@@ -6,6 +6,7 @@ const formidable = require('formidable');
 const multer     = require('multer');
 const multiparty = require('multiparty');
 const md5        = require('md5');
+const session    = require('express-session');
 
 /* Setup Express */
 let app = express();
@@ -26,6 +27,13 @@ const firebase = require('firebase').initializeApp({
   storageBucket: "cs252-web-app.appspot.com",
   messagingSenderId: "225077387827"
 });
+
+/* Setup session */
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false
+}));
 
 const ref = firebase.database().ref();
 
@@ -66,9 +74,25 @@ app.post('/login', (req, res) => {
   const auth = firebase.auth();
 
   const promise = auth.signInWithEmailAndPassword(email, pass);
-  promise.catch(err => console.error(err.message));
+  promise.catch(err =>  {
+    console.error(err.message);
+    return res.redirect(303, '/');
+  });
 
-  res.redirect(303, '/');
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // User is signed in.
+      let sess = req.session;
+      let name, email, uid;
+      name = user.displayName;
+      email = user.email;
+      uid = user.uid;
+      console.log("user info { " + name + "\t" + email + "\t" + uid + " }");
+      sess.userId = uid;
+      console.log(sess);
+      res.redirect(303, '/');
+    }
+  });
 });
 
 app.post('/createUser', (req, res) => {
@@ -91,6 +115,11 @@ app.post('/createUser', (req, res) => {
       console.log('not logged in');
     }
   });
+  res.redirect(303, '/');
+});
+
+app.post('/logout', (req, res) => {
+  firebase.auth().signOut();
   res.redirect(303, '/');
 });
 
