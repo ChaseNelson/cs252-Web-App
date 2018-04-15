@@ -52,6 +52,14 @@ app.get('/newUser', (req, res) => {
   res.render('newUser');
 });
 
+app.get('/profile', (req, res) => {
+  res.render('profile');
+});
+
+app.get('/settings', (req, res) => {
+  res.render('settings');
+});
+
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const pass  = req.body.password;
