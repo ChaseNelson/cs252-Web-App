@@ -1,40 +1,40 @@
-<div class="back" id=back>
-  <img src="images/043_success-mail.gif" class="stretch" alt="Fun mail gif">
-</div>
-<span class="textL">
-Sign in to BookFace!
-</span>
-<div class="page-header login" style="float:right" id=login>
-  <form id="login_form" action="/login" method="post">
-    <table cellspacing="0">
-      <tbody>
-        <tr>
-          <td>
-            <label for="email">Email</label>
-          </td>
-          <td>
-            <label for="password">Password</label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="email" class="inputtext" name="email" id="email" tabindex="1">
-          </td>
-          <td>
-            <input type="password" class="inputtext" name="password" id="password" tabindex="2">
-          </td>
-          <td>
-            <label id="loginbutton">
-            <input value="Log In" tabindex="4" type="submit">
-            </label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <a href="/newUser">New User</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">BookFace</a>
+      <IMG src="043_success-mail.gif" width=100px height=50px>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Log in</a></li>
+        <li><a href="/newUser">Create new user</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container" align="center">
+  <h2>Log in to BookFace!</h2>
+  <form action="/login">
+    <div class="form-group" id="formG">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+    </div>
+    <div class="form-group" id="formG">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+    </div>
+
+    <button type="submit" class="btn btn-default">Log in</button>
   </form>
 </div>
+
+</body>
