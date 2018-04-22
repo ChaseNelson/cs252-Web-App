@@ -60,7 +60,7 @@ function userLoggedin(sess) {
   let Uref = firebase.database().ref('Users');
   Uref.on('value', (data) => {
     data = data.val()
-    console.log(typeof data[sess.userId] !== 'undefined');
+    // console.log(typeof data[sess.userId] !== 'undefined');
     if (typeof data[sess.userId] !== 'undefined') return true;
     return false;
   }, (err) => {
@@ -130,9 +130,9 @@ app.post('/login', (req, res) => {
       name = user.displayName;
       email = user.email;
       uid = user.uid;
-      console.log("user info { " + name + "\t" + email + "\t" + uid + " }");
+      // console.log("user info { " + name + "\t" + email + "\t" + uid + " }");
       sess.userId = uid;
-      console.log(sess);
+      // console.log(sess);
       res.redirect(303, '/profile/'+ uid);
     }
   });
@@ -148,9 +148,8 @@ app.post('/createUser', (req, res) => {
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
-      console.log(firebaseUser.uid);
-      console.log(firebaseUser.email);
-      // TODO: Make a new user in the user table
+      // console.log(firebaseUser.uid);
+      // console.log(firebaseUser.email);
       let userRef = firebase.database().ref('Users');
       let data = {email: firebaseUser.email, firstName: req.body.firstName, lastName: req.body.lastName};
       userRef.child(firebaseUser.uid).set(data);
@@ -159,6 +158,17 @@ app.post('/createUser', (req, res) => {
     }
   });
   res.redirect(303, '/');
+});
+
+app.post('/updateUser', (req, res) => {
+  const uid = req.body.uid;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+
+  let userRef = firebase.database().ref('Users');
+  let data = {firstName: firstName, lastName: req.body.lastName};
+  userRef.child(uid).update(data);
+  res.redirect(303, '/settings');
 });
 
 app.post('/logout', (req, res) => {
