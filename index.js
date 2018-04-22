@@ -70,7 +70,11 @@ function userLoggedin(sess) {
 }
 
 app.get('/', (req, res) => {
-  res.render('home');
+  if (typeof req.query.err !== 'undefined' && req.query.err == 1) {
+    res.render('home', {error: req.query.err});
+  } else {
+    res.render('home');
+  }
 });
 
 app.get('/newUser', (req, res) => {
@@ -119,7 +123,7 @@ app.post('/login', (req, res) => {
   const promise = auth.signInWithEmailAndPassword(email, pass);
   promise.catch(err =>  {
     console.error(err.message);
-    return res.redirect(303, '/');
+    return res.redirect(303, '/?err=' + 1);
   });
 
   firebase.auth().onAuthStateChanged((user) => {
