@@ -1,0 +1,45 @@
+<nav class="navbar navbar-default" id ="Test">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">BookFace</a>
+      <img src="/images/043_success-mail.gif" width=100px height=50px>
+      </div>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="button" class="btn btn-default" aria-label="Left Align">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/profile/{{myUid}}">{{firstName}} {{lastName}}
+            <img src="/images/dude.jpg" width=25px class="img-thumbnail" aria-hidden="true">
+          </a></li>
+          <li><a href="/settings"><span class="glyphicon glyphicon-cog"aria-hidden="true" id="Test" width=10px></span></a></li>
+          <li><a href="/logout"><span class="glyphicon glyphicon-off" aria-hidden="true" id = "Test"></a></li>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<div class="container" align="center">
+  <h2>Log in to delete your account</h2>
+  <form class="login" action="/delete" method="post">
+    <div class="form-group" id="formG">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+    </div>
+
+    <div class="form-group" id="formG">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+    </div>
+
+    <button type="submit" class="btn btn-danger">Delete account</button>
+    <a href="/settings" class="btn btn-default">Go back</a>
+  </form>
+</div>
+
+</body>
