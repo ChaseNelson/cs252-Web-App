@@ -78,7 +78,19 @@ app.get('/newUser', (req, res) => {
 });
 
 app.get('/settings', (req, res) => {
-  res.render('settings');
+  let user = userLoggedin(req.session);
+  if (user === false) {
+    res.redirect(303, '/');
+  } else {
+    let uref = firebase.database().ref('Users/' + req.session.userId);
+    uref.on('value', (data) => {
+      let val = data.val();
+      res.render('settings', {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email});
+    }, (err) =>{
+      console.error('Error!');
+      console.error(err);
+    })
+  }
 });
 
 app.get('/profile/:uid', (req, res) => {
@@ -91,7 +103,7 @@ app.get('/profile/:uid', (req, res) => {
     let uref = firebase.database().ref('Users/' + req.params.uid);
     uref.on('value', (data) => {
       let val = data.val();
-      res.render('profile', {firstName: val.firstName, lastName: val.lastName, email: val.email});
+      res.render('profile', {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email});
     }, (err) =>{
       console.error('Error!');
       console.error(err);
