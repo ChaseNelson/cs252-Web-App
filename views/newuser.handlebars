@@ -14,22 +14,22 @@
 
 <div class="container" align="center">
   <h2>Create an account!</h2>
-  <form action="/newUser">
+  <form class="login" action="/createUser" method="post">
     <div class="form-group" id="formG">
-      <label for="firstname">First Name:</label>
-      <input type="text" class="form-control" id="firstname" placeholder="Enter first name" name="firstname">
+      <label for="firstName">First Name:</label>
+      <input type="text" class="form-control" id="firstName" placeholder="Enter first name" name="firstName">
     </div>
     <div class="form-group" id="formG">
-      <label for="lastname">Last Name:</label>
-      <input type="text" class="form-control" id="lastname" placeholder="Enter last name" name="lastname">
+      <label for="lastName">Last Name:</label>
+      <input type="text" class="form-control" id="lastName" placeholder="Enter last name" name="lastName">
     </div>
     <div class="form-group" id="formG">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
     </div>
     <div class="form-group" id="formG">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
     </div>
 
     <button type="submit" class="btn btn-default">Create new user</button>
