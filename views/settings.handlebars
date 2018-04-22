@@ -13,7 +13,7 @@
         </button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/profile">{{firstName}} {{lastName}} <img src="/images/dude.jpg" width=25px class="img-thumbnail" aria-hidden="true">
+        <li><a href="/profile/{{myUid}}">{{firstName}} {{lastName}} <img src="/images/dude.jpg" width=25px class="img-thumbnail" aria-hidden="true">
           <li><a href="/settings"><span class="glyphicon glyphicon-cog"aria-hidden="true" id="Test" width=10px></span></a></li>
           <li><a href="/logout"><span class="glyphicon glyphicon-off" aria-hidden="true" id = "Test"></a></li>
           </a></li>
@@ -48,7 +48,7 @@
         <div class="col-lg-4">
           <div class="container">
             <h2>Change your settings</h2>
-            <form action="/newUser" id="cent">
+            <form action="#" id="cent">
               <div class="form-group" id="formG">
                 <label for="firstname">Change First Name:</label>
                 <input type="text" class="form-control" id="firstname" placeholder="Enter first name" name="firstName" value="{{firstName}}">
