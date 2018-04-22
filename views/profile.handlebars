@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="/">BookFace</a>
-      <img src="043_success-mail.gif" width=100px height=50px>
+      <img src="/images/043_success-mail.gif" width=100px height=50px>
       </div>
       <form class="navbar-form navbar-left">
         <div class="form-group">
@@ -13,7 +13,9 @@
         </button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/profile">Dummy Name <img src="dude.jpg" width=25px class="img-thumbnail" aria-hidden="true">
+          <li><a href="/profile">{{firstName}} {{lastName}}
+            <img src="/images/dude.jpg" width=25px class="img-thumbnail" aria-hidden="true">
+          </a></li>
           <li><a href="/settings"><span class="glyphicon glyphicon-cog"aria-hidden="true" id="Test" width=10px></span></a></li>
           <li><a href="/logout"><span class="glyphicon glyphicon-off" aria-hidden="true" id = "Test"></a></li>
           </a></li>
@@ -21,51 +23,50 @@
       </div>
     </div>
   </div>
-  </nav>
+</nav>
 
-  <div class="profile">
-    <div class="container">
-      <nav class="navbar">
-      </nav>
-      <div class="row">
-        <div class="col-lg-4">
-          <img class="img-fluid rounded img-thumbnail" src="dude.jpg" width=300px height=300px alt="">
-          <div class="col">
-            <div class="card h-100">
+<div class="profile">
+  <div class="container">
+    <nav class="navbar"></nav>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3">
+        <img class="img-fluid rounded img-thumbnail" src="/images/dude.jpg" alt="profile picture">
+        <div class="col">
+          <div class="card h-100">
+            {{#if summary}}
               <div class="card-body">
-                <h2 class ="card-text">Description or data about Dummy Name.</p>
-                </div>
-                <div class="card-footer">
-                  <a href ="/settings" class ="btn btn-default">Settings</a>
-                </div>
+                <h2 class ="card-text">{{firstName}} {{lastName}}: {{summary}}</p>
               </div>
-            </div>
+            {{/if}}
           </div>
-          <div class="col-lg-4">
-            <div class="container">
-              <div class="row">
-                <div class ="col-sm-12">
-                  <h3>Comment 1</h3>
-                </div>
-              </div>
-              <div class="row">
-                <div class = "col-sm-1">
-                  <img class="img-thumbnail" src="dude.jpg">
-                </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="container">
+          <div class="row">
+            <div class ="col-sm-12">
+              <h3>Message 1</h3>
+            </div>
+          <!-- </div>
+          <div class="row"> -->
+            <div class = "col-sm-1">
+              <img class="img-thumbnail" src="/images/dude.jpg">
+            </div>
 
-                <div class="col-sm-5">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <p style="text-align:left;">
-                        <strong>Dummy name</strong>
-                        <span class="text-muted" style="float:right;"> 	&nbsp 5 likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                    </div>
-                    <div class="panel-body">
-                      Comment here
-                    </div>
-                  </div>
+            <div class="col-sm-12 col-md-12 col-lg-8">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <p style="text-align:left;"><strong>{{firstName}} {{lastName}}</strong>
+                  <span class="text-muted" style="float:right;"> 	&nbsp 5 likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                </div>
+                <div class="panel-body">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique mauris sit amet fringilla luctus. Duis blandit eros sed nunc rhoncus feugiat. Curabitur bibendum massa in cursus dapibus. Nam sodales ullamcorper nisl, non sodales massa vehicula at. Sed scelerisque ipsum ac nunc lacinia, feugiat faucibus diam molestie. Ut laoreet elit quis eros ultrices, id volutpat mauris rutrum. Suspendisse convallis mattis erat, vel egestas lectus molestie quis. Aenean justo ligula, vestibulum luctus risus sit amet, egestas semper leo. Praesent consectetur nec diam vitae congue.</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>

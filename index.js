@@ -77,10 +77,6 @@ app.get('/newUser', (req, res) => {
   res.render('newUser');
 });
 
-app.get('/profile', (req, res) => {
-  res.render('profile');
-});
-
 app.get('/settings', (req, res) => {
   res.render('settings');
 });
@@ -89,7 +85,6 @@ app.get('/profile/:uid', (req, res) => {
   // TODO: Verfify that user is loged in
   // firebase.database().ref('Users');
   let user = userLoggedin(req.session);
-  console.log(user);
   if (user === false) {
     res.redirect(303, '/');
   } else {
