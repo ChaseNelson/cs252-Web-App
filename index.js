@@ -203,6 +203,25 @@ app.post('/newMessage', (req, res) => {
 
 app.post('/newComment', (req, res) => {
   /* TODO :: Add ability to make comments */
+  /* this should work in theory BUT it has yet to be tested */
+  const messUid = req.body.messUid;
+  const commUid = req.session.userId;
+  const comment = req.body.comment;
+  const messTimestamp = req.body.timestamp;
+  const commTimestamp = Date.now();
+
+  if (typeof commUid === 'undefined') {
+    res.redirect(303, '/');
+  } else if (typeof messUid === 'undefined') {
+    res.redirect(303, '/profile/' + commUid);
+  } else if (typeof comment === 'undefined' || comment === '\n' || comment === '' || comment === ' ') {
+    res.redirect(303, '/profile/' + messUid);
+  } else {
+    let commRef = firebase.database().ref('Messages/' + messUid + '/' + messTimestamp);
+    let data = {comment: comment};
+    commRef.child(commTimestamp).set(data);
+    res.redirect(303, '/profile/' + messUid);
+  }
 });
 
 app.use((req, res) => {
