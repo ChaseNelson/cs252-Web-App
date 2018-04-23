@@ -120,10 +120,10 @@ app.get('/feed', (req, res) => {
   if (user === false) {
     res.redirect(303, '/');
   } else {
-    let uref = firebase.database().ref('Users/' + req.params.uid);
+    let uref = firebase.database().ref('Users/' + req.session.userId);
     uref.on('value', (data) => {
       let val = data.val();
-      res.render('feed');
+      res.render('feed', {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email});
     }, (err) =>{
       console.error('Error!');
       console.error(err);
