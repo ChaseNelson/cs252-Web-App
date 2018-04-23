@@ -185,15 +185,20 @@ app.get('/message', (req, res) => {
 })
 
 app.post('/newMessage', (req, res) => {
-  const uid = req.body.uid;
-  const message = req.session.userId;
+  const uid = req.session.userId;
+  const message = req.body.message;
   const timestamp = Date.now();
 
-  let messRef = firebase.database().ref('Messages/' + uid);
-  let data = {message: message, likes: 0};
-  messRef.child(timestamp).set(data);
-  res.redirect(303, '/profile/' + uid);
-
+  if (typeof uid === 'undefined') { // User must be loged in
+    res.redirect(303, '/');
+  } else if (typeof message === 'undefined' || message === '\n' || message === '' || message === ' ') { // check for bad messages
+    res.redirect(303, '/profile/' + uid);
+  } else {
+    let messRef = firebase.database().ref('Messages/' + uid);
+    let data = {message: message, likes: 0};
+    messRef.child(timestamp).set(data);
+    res.redirect(303, '/profile/' + uid);
+  }
 });
 
 app.post('/newComment', (req, res) => {
