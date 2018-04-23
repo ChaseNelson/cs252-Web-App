@@ -115,6 +115,22 @@ app.get('/profile/:uid', (req, res) => {
   }
 });
 
+app.get('/feed', (req, res) => {
+  let user = userLoggedin(req.session);
+  if (user === false) {
+    res.redirect(303, '/');
+  } else {
+    let uref = firebase.database().ref('Users/' + req.params.uid);
+    uref.on('value', (data) => {
+      let val = data.val();
+      res.render('feed');
+    }, (err) =>{
+      console.error('Error!');
+      console.error(err);
+    })
+  }
+});
+
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const pass  = req.body.password;
@@ -137,7 +153,7 @@ app.post('/login', (req, res) => {
       // console.log("user info { " + name + "\t" + email + "\t" + uid + " }");
       sess.userId = uid;
       // console.log(sess);
-      res.redirect(303, '/profile/'+ uid);
+      res.redirect(303, '/feed');
     }
   });
 });
