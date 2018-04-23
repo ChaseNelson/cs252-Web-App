@@ -180,6 +180,26 @@ app.post('/logout', (req, res) => {
   res.redirect(303, '/');
 });
 
+app.get('/message', (req, res) => {
+  res.render('message');
+})
+
+app.post('/newMessage', (req, res) => {
+  const uid = req.body.uid;
+  const message = req.session.userId;
+  const timestamp = Date.now();
+
+  let messRef = firebase.database().ref('Messages/' + uid);
+  let data = {message: message, likes: 0};
+  messRef.child(timestamp).set(data);
+  res.redirect(303, '/profile/' + uid);
+
+});
+
+app.post('/newComment', (req, res) => {
+  /* TODO :: Add ability to make comments */
+});
+
 app.use((req, res) => {
   res.type('text/html');
   res.status(404);
