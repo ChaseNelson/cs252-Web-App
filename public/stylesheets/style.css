@@ -1,10 +1,12 @@
-
-html {
-    height: 100%;
+html, body {
+  min-height: 100%;
 }
 
 body{
-background: linear-gradient(white 60%, #24C3F3);
+  background: linear-gradient(white 60%, #24C3F3);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left top;
 }
 
 #Test{
