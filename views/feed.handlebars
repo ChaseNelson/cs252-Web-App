@@ -10,61 +10,27 @@
             <button type="submit" class="btn btn-default" name="submit" value="submit">Submit</button>
           </form>
         </div>
-
-
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-2 col-lg-offset-1">
-           <div class="container">
-             <div class="row">
-               <div class ="col-sm-12">
-              <h3>Message 1</h3>
-              </div>
-            <div class = "col-sm-1">
-              <img class="img-thumbnail" src="/images/dude.jpg">
+    {{#each messages}}
+      <div class="row">
+        <div class = "col-sm-1">
+          <img class="img-thumbnail" src="/images/dude.jpg">
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <p style="text-align:left;">
+                <a href="/profile/{{this.uid}}"><strong>{{this.firstName}} {{this.lastName}}</strong></a>
+                <span class="text-muted" style="float:right;"> 	&nbsp {{this.likes}} likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+              </p>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-8">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <p style="text-align:left;"><strong>Chase Nelson</strong>
-                  <span class="text-muted" style="float:right;"> 	&nbsp 5 likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                </div>
-                <div class="panel-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique mauris sit amet fringilla luctus. Duis blandit eros sed nunc rhoncus feugiat. Curabitur bibendum massa in cursus dapibus. Nam sodales ullamcorper nisl, non sodales massa vehicula at. Sed scelerisque ipsum ac nunc lacinia, feugiat faucibus diam molestie. Ut laoreet elit quis eros ultrices, id volutpat mauris rutrum. Suspendisse convallis mattis erat, vel egestas lectus molestie quis. Aenean justo ligula, vestibulum luctus risus sit amet, egestas semper leo. Praesent consectetur nec diam vitae congue.</p>
-                </div>
-              </div>
+            <div class="panel-body">
+              <p>{{this.content}}</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2 col-lg-offset-1">
-           <div class="container">
-             <div class="row">
-               <div class ="col-sm-12">
-              <h3>Message 2</h3>
-              </div>
-
-            <div class = "col-sm-1">
-              <img class="img-thumbnail" src="/images/dude.jpg">
-            </div>
-
-            <div class="col-sm-12 col-md-12 col-lg-8">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <p style="text-align:left;"><strong>Pat Fortunato</strong>
-                  <span class="text-muted" style="float:right;"> 	&nbsp 5 likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                </div>
-                <div class="panel-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique mauris sit amet fringilla luctus. Duis blandit eros sed nunc rhoncus feugiat. Curabitur bibendum massa in cursus dapibus. Nam sodales ullamcorper nisl, non sodales massa vehicula at. Sed scelerisque ipsum ac nunc lacinia, feugiat faucibus diam molestie. Ut laoreet elit quis eros ultrices, id volutpat mauris rutrum. Suspendisse convallis mattis erat, vel egestas lectus molestie quis. Aenean justo ligula, vestibulum luctus risus sit amet, egestas semper leo. Praesent consectetur nec diam vitae congue.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {{/each}}
   </div>
 </div>
