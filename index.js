@@ -117,7 +117,6 @@ app.get('/profile/:uid', (req, res) => {
             arr.push({content: v[key].message, likes: v[key].likes, firstName: data.val().firstName, lastName: data.val().lastName, uid: req.params.uid});
           }
           let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email, messages: arr}
-          console.log(info);
           res.render('profile', info);
         });
       })
@@ -134,14 +133,34 @@ app.get('/feed', (req, res) => {
     res.redirect(303, '/');
   } else {
     let uref = firebase.database().ref('Users/' + req.session.userId);
-    uref.on('value', (data) => {
+    uref.on('value', (data) => { // get the currUsers info
       let val = data.val();
-      let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email}
-      // let messRef = firebase.database().ref('Messages');
-      // messRef.on('value', (data) => {
-      //   let
-      // });
-      res.render('feed', info);
+      let info       = {};
+      info.myUid     = req.session.userId;
+      info.firstName = val.firstName;
+      info.lastName  = val.lastName;
+      info.email     = val.email;
+      let messRef = firebase.database().ref('Messages');
+      messRef.on('value', (data) => {
+        let v = data.val();
+        let mess = [];
+        for (let key in v) {
+          for (let messKey in v[key]) {
+            let messInfo = {};
+            messInfo.content = v[key][messKey].message;
+            messInfo.likes   = v[key][messKey].likes;
+            let mRef = firebase.database().ref('Users/' + key);
+            mRef.on('value', (data) => {
+              messInfo.firstName = data.val().firstName;
+              messInfo.lastName  = data.val().lastName;
+              messInfo.uid       = key;
+              mess.push(messInfo);
+            });
+          }
+        }
+        info.messages = mess;
+        res.render('feed', info);
+      });
     }, (err) =>{
       console.error('Error!');
       console.error(err);
@@ -152,7 +171,7 @@ app.get('/feed', (req, res) => {
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const pass  = req.body.password;
-  const auth = firebase.auth();
+  const auth  = firebase.auth();
 
   const promise = auth.signInWithEmailAndPassword(email, pass);
   promise.catch(err =>  {
@@ -165,9 +184,9 @@ app.post('/login', (req, res) => {
       // User is signed in.
       let sess = req.session;
       let name, email, uid;
-      name = user.displayName;
-      email = user.email;
-      uid = user.uid;
+      name     = user.displayName;
+      email    = user.email;
+      uid      = user.uid;
       // console.log("user info { " + name + "\t" + email + "\t" + uid + " }");
       sess.userId = uid;
       // console.log(sess);
@@ -179,7 +198,7 @@ app.post('/login', (req, res) => {
 app.post('/createUser', (req, res) => {
   const email = req.body.email;
   const pass  = req.body.password;
-  const auth = firebase.auth();
+  const auth  = firebase.auth();
 
   const promise = auth.createUserWithEmailAndPassword(email, pass);
   promise.catch(err => console.error(err.message));
@@ -199,9 +218,9 @@ app.post('/createUser', (req, res) => {
 });
 
 app.post('/updateUser', (req, res) => {
-  const uid = req.body.uid;
+  const uid       = req.body.uid;
   const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
+  const lastName  = req.body.lastName;
 
   let userRef = firebase.database().ref('Users');
   let data = {firstName: firstName, lastName: req.body.lastName};
@@ -219,28 +238,22 @@ app.get('/message', (req, res) => {
 })
 
 app.post('/newMessage', (req, res) => {
-  const uid = req.session.userId;
-  const message = req.body.message;
+  const uid       = req.session.userId;
+  const message   = req.body.message;
   const timestamp = Date.now();
 
-  if (typeof uid === 'undefined') { // User must be loged in
-    res.redirect(303, '/');
-  } else if (typeof message === 'undefined' || message === '\n' || message === '' || message === ' ') { // check for bad messages
-    res.redirect(303, '/profile/' + uid);
-  } else {
-    let messRef = firebase.database().ref('Messages/' + uid);
-    let data = {message: message, likes: 0};
-    messRef.child(timestamp).set(data);
-    res.redirect(303, '/profile/' + uid);
-  }
+  let messRef = firebase.database().ref('Messages');
+  let data = {message: message, likes: 0};
+  messRef.child(uid).child(timestamp).update(data);
+  res.redirect(303, '/feed');
 });
 
 app.post('/newComment', (req, res) => {
   /* TODO :: Add ability to make comments */
   /* this should work in theory BUT it has yet to be tested */
-  const messUid = req.body.messUid;
-  const commUid = req.session.userId;
-  const comment = req.body.comment;
+  const messUid       = req.body.messUid;
+  const commUid       = req.session.userId;
+  const comment       = req.body.comment;
   const messTimestamp = req.body.timestamp;
   const commTimestamp = Date.now();
 
