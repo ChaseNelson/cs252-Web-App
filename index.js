@@ -104,10 +104,23 @@ app.get('/profile/:uid', (req, res) => {
   if (user === false) {
     res.redirect(303, '/');
   } else {
-    let uref = firebase.database().ref('Users/' + req.params.uid);
+    let uref = firebase.database().ref('Users/' + req.session.userId);
     uref.on('value', (data) => {
       let val = data.val();
-      res.render('profile', {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email});
+      let messRef = firebase.database().ref('Messages/' + req.params.uid);
+      messRef.on('value', (data) => {
+        let v = data.val();
+        let arr = [];
+        let mRef = firebase.database().ref('Users/' + req.params.uid);
+        mRef.on('value', (data) => {
+          for (let key in v) {
+            arr.push({content: v[key].message, likes: v[key].likes, firstName: data.val().firstName, lastName: data.val().lastName, uid: req.params.uid});
+          }
+          let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email, messages: arr}
+          console.log(info);
+          res.render('profile', info);
+        });
+      })
     }, (err) =>{
       console.error('Error!');
       console.error(err);
@@ -123,7 +136,12 @@ app.get('/feed', (req, res) => {
     let uref = firebase.database().ref('Users/' + req.session.userId);
     uref.on('value', (data) => {
       let val = data.val();
-      res.render('feed', {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email});
+      let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email}
+      // let messRef = firebase.database().ref('Messages');
+      // messRef.on('value', (data) => {
+      //   let
+      // });
+      res.render('feed', info);
     }, (err) =>{
       console.error('Error!');
       console.error(err);
