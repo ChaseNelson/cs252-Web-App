@@ -132,39 +132,8 @@ app.get('/feed', (req, res) => {
   if (user === false) {
     res.redirect(303, '/');
   } else {
-    let uref = firebase.database().ref('Users/' + req.session.userId);
-    uref.on('value', (data) => { // get the currUsers info
-      let val = data.val();
-      let info       = {};
-      info.myUid     = req.session.userId;
-      info.firstName = val.firstName;
-      info.lastName  = val.lastName;
-      info.email     = val.email;
-      let messRef = firebase.database().ref('Messages');
-      messRef.on('value', (data) => {
-        let v = data.val();
-        let mess = [];
-        for (let key in v) {
-          for (let messKey in v[key]) {
-            let messInfo = {};
-            messInfo.content = v[key][messKey].message;
-            messInfo.likes   = v[key][messKey].likes;
-            let mRef = firebase.database().ref('Users/' + key);
-            mRef.on('value', (data) => {
-              messInfo.firstName = data.val().firstName;
-              messInfo.lastName  = data.val().lastName;
-              messInfo.uid       = key;
-              mess.push(messInfo);
-            });
-          }
-        }
-        info.messages = mess;
-        res.render('feed', info);
-      });
-    }, (err) =>{
-      console.error('Error!');
-      console.error(err);
-    })
+    let info = {myUid: req.session.userId}
+    res.render('feed', info);
   }
 });
 
@@ -187,9 +156,7 @@ app.post('/login', (req, res) => {
       name     = user.displayName;
       email    = user.email;
       uid      = user.uid;
-      // console.log("user info { " + name + "\t" + email + "\t" + uid + " }");
       sess.userId = uid;
-      // console.log(sess);
       res.redirect(303, '/feed');
     }
   });
