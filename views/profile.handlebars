@@ -17,27 +17,25 @@
       <div class="col-lg-8">
         <div class="container">
           {{#each messages}}
-          <div class="row">
-
-            <div class = "col-sm-1">
-              <img class="img-thumbnail" src="/images/dude.jpg">
-            </div>
-
-            <div class="col-sm-12 col-md-12 col-lg-8">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <p style="text-align:left;">
-                    <a href="/profile/{{this.uid}}"><strong>{{this.firstName}} {{this.lastName}}</strong></a>
-                    <span class="text-muted" style="float:right;"> 	&nbsp {{this.likes}} likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                  </p>
-                </div>
-                <div class="panel-body">
-                  <p>{{this.content}}</p>
+            <div class="row">
+              <div class = "col-sm-1">
+                <img class="img-thumbnail" src="/images/dude.jpg">
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-8">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <p style="text-align:left;">
+                      <a href="/profile/{{this.uid}}"><strong>{{this.firstName}} {{this.lastName}}</strong></a>
+                      <span class="text-muted" style="float:right;"> 	&nbsp {{this.likes}} likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    </p>
+                  </div>
+                  <div class="panel-body">
+                    <p>{{this.content}}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        {{/each}}
+          {{/each}}
         </div>
       </div>
     </div>
