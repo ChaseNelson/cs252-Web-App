@@ -83,7 +83,7 @@ app.get('/newUser', (req, res) => {
 
 app.get('/logout', (req, res) => {
   res.redirect(303, '/');
-  sess.userId = "";
+  req.session.userId = "";
 });
 
 app.get('/settings', (req, res) => {
