@@ -94,7 +94,14 @@ app.get('/settings', (req, res) => {
     let uref = firebase.database().ref('Users/' + req.session.userId);
     uref.on('value', (data) => {
       let val = data.val();
-      res.render('settings', {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email});
+      let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email};
+      if (typeof val.summary !== 'undefined') {
+        if (val.summary !== '') {
+          info.summary = val.summary;
+        }
+      }
+      console.log(info);
+      res.render('settings', info);
     }, (err) =>{
       console.error('Error!');
       console.error(err);
@@ -112,7 +119,9 @@ app.get('/profile/:uid', (req, res) => {
       let val = data.val();
       let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, uid: req.params.uid};
       if (typeof val.summary !== 'undefined') {
-        info.summary = val.summary;
+        if (val.summary !== '') {
+          info.summary = val.summary;
+        }
       }
       res.render('profile', info);
     });
@@ -185,12 +194,15 @@ app.post('/updateUser', (req, res) => {
   const summary   = req.body.summary;
 
   let userRef = firebase.database().ref('Users');
-  userRef.child(uid).update(data);
-  if (summary !== '' || summary !== ' ') {
-    userRef.child(uid).update({summary: summary});
+  if (summary !== ' ') {
+    userRef.child(uid).update({firstName: firstName, lastName: lastName, summary: summary}).then(() => {
+      res.redirect(303, '/settings');
+    });
   } else {
     let data = {firstName: firstName, lastName: lastName};
-    res.redirect(303, '/settings');
+    userRef.child(uid).update(data).then(() => {
+      res.redirect(303, '/settings');
+    });
   }
 });
 
