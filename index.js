@@ -208,17 +208,6 @@ app.get('/message', (req, res) => {
   res.render('message');
 })
 
-app.post('/newMessage', (req, res) => {
-  const uid       = req.session.userId;
-  const message   = req.body.message;
-  const timestamp = Date.now();
-
-  let messRef = firebase.database().ref('Messages');
-  let data = {message: message, likes: 0};
-  messRef.child(uid).child(timestamp).update(data);
-  res.redirect(303, '/feed');
-});
-
 app.post('/newComment', (req, res) => {
   /* TODO :: Add ability to make comments */
   /* this should work in theory BUT it has yet to be tested */
