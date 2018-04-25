@@ -22,4 +22,5 @@ A social media site in which you can create an account which includes your name,
 + Search bar
 + Sorting
 + Settings (pictures, delete, summary)
++ Log out
 
