@@ -132,8 +132,12 @@ app.get('/feed', (req, res) => {
   if (user === false) {
     res.redirect(303, '/');
   } else {
-    let info = {myUid: req.session.userId}
-    res.render('feed', info);
+    let uref = firebase.database().ref('Users/' + req.session.userId);
+    uref.on('value', (data) => {
+      let val = data.val();
+      let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName};
+      res.render('feed', info);
+    });
   }
 });
 
