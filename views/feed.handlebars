@@ -43,7 +43,7 @@
           quickSort(mess);
           messDiv.innerHTML = '';
           for (let i = 0; i < mess.length; i++) {
-            messDiv.innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" src="/images/dude.jpg"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + mess[i].uid + '"><strong>' + mess[i].firstName + ' ' + mess[i].lastName + '</strong></a><span class="text-muted" style="float:right;"> 	&nbsp '+ mess[i].likes +' likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true" onclick="incLike(\'' + mess[i].uid + '\', \'' + mess[i].key + '\', \'' + mess[i].likes + '\')"></span></p></div><div class="panel-body"><p>'+ mess[i].content +'</p></div></div></div></div>';
+            messDiv.innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" src="/images/dude.jpg"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + mess[i].uid + '"><strong>' + mess[i].firstName + ' ' + mess[i].lastName + '</strong></a><span class="text-muted" style="float:right;"> 	&nbsp '+ mess[i].likes +' likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true" onclick="incLike(\'' + mess[i].uid + '\', \'' + mess[i].key + '\', \'{{myUid}}\')"></span></p></div><div class="panel-body"><p>'+ mess[i].content +'</p></div></div></div></div>';
           }
         });
       }
