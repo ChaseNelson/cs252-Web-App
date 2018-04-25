@@ -200,7 +200,7 @@ app.post('/updateUser', (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-  firebase.auth().signOut();
+  sess.userId = "";
   res.redirect(303, '/');
 });
 
