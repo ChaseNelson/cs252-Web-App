@@ -9,3 +9,7 @@ function postData(uid) {
   messRef.child(timestamp).set(data);
   document.getElementById('messageContent').value = '';
 }
+
+function incLike(uid,timestamp){
+
+}
