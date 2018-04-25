@@ -103,8 +103,6 @@ app.get('/settings', (req, res) => {
 });
 
 app.get('/profile/:uid', (req, res) => {
-  // TODO: Verfify that user is loged in
-  // firebase.database().ref('Users');
   let user = userLoggedin(req.session);
   if (user === false) {
     res.redirect(303, '/');
@@ -181,8 +179,6 @@ app.post('/createUser', (req, res) => {
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
-      // console.log(firebaseUser.uid);
-      // console.log(firebaseUser.email);
       let userRef = firebase.database().ref('Users');
       let data = {email: firebaseUser.email, firstName: req.body.firstName, lastName: req.body.lastName};
       userRef.child(firebaseUser.uid).set(data);
