@@ -16,9 +16,3 @@ A social media site in which you can create an account which includes your name,
 + JQuery
 + Bootstrap
 + Heroku
-
-## Features before turnin TODO
-+ Search bar
-+ Settings (pictures, delete, summary)
-
-
