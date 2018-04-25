@@ -20,8 +20,9 @@ function incLike(uid, messKey, myUid){
       likeRef.update({likers: likers, likes: likers.length});
     } else if (val.likers.indexOf(myUid) === -1) {
       val.likers.push(myUid)
-      val.likes = val.liker.length;
-      likeRef.update({likers: val.likers, likes: likers.length});
+      let d = {likers: val.likers, likes: val.likers.length};
+      console.log(d);
+      likeRef.update(d);
     }
   })
 }
