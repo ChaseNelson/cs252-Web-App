@@ -110,23 +110,12 @@ app.get('/profile/:uid', (req, res) => {
     let uref = firebase.database().ref('Users/' + req.session.userId);
     uref.on('value', (data) => {
       let val = data.val();
-      let messRef = firebase.database().ref('Messages/' + req.params.uid);
-      messRef.on('value', (data) => {
-        let v = data.val();
-        let arr = [];
-        let mRef = firebase.database().ref('Users/' + req.params.uid);
-        mRef.on('value', (data) => {
-          for (let key in v) {
-            arr.push({content: v[key].message, likes: v[key].likes, firstName: data.val().firstName, lastName: data.val().lastName, uid: req.params.uid});
-          }
-          let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email, messages: arr}
-          res.render('profile', info);
-        });
-      })
-    }, (err) =>{
-      console.error('Error!');
-      console.error(err);
-    })
+      let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, uid: req.params.uid};
+      if (typeof val.summary !== 'undefined') {
+        info.summary = val.summary;
+      }
+      res.render('profile', info);
+    });
   }
 });
 
@@ -193,11 +182,16 @@ app.post('/updateUser', (req, res) => {
   const uid       = req.body.uid;
   const firstName = req.body.firstName;
   const lastName  = req.body.lastName;
+  const summary   = req.body.summary;
 
   let userRef = firebase.database().ref('Users');
-  let data = {firstName: firstName, lastName: req.body.lastName};
   userRef.child(uid).update(data);
-  res.redirect(303, '/settings');
+  if (summary !== '' || summary !== ' ') {
+    userRef.child(uid).update({summary: summary});
+  } else {
+    let data = {firstName: firstName, lastName: lastName};
+    res.redirect(303, '/settings');
+  }
 });
 
 
