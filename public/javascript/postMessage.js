@@ -10,8 +10,18 @@ function postData(uid) {
   document.getElementById('messageContent').value = '';
 }
 
-function incLike(uid, messKey, currLikes){
+function incLike(uid, messKey, myUid){
   let likeRef = firebase.database().ref('Messages').child(uid).child(messKey);
-  let data = {likes: parseInt(currLikes) + 1};
-  likeRef.update(data);
+  likeRef.once('value', (data) =>{
+    let val = data.val();
+    if (typeof val.likers === 'undefined') {
+      let likers = [];
+      likers.push(myUid)
+      likeRef.update({likers: likers, likes: likers.length});
+    } else if (val.likers.indexOf(myUid) === -1) {
+      val.likers.push(myUid)
+      val.likes = val.liker.length;
+      likeRef.update({likers: val.likers, likes: likers.length});
+    }
+  })
 }
