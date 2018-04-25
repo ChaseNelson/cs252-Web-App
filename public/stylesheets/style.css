@@ -4,7 +4,7 @@ html, body {
 }
 
 body{
-  background: linear-gradient(white 60%, #24C3F3);
+ background: repeating-linear-gradient(white,	#007B61);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: left top;
