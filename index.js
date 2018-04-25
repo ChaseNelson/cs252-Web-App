@@ -81,6 +81,11 @@ app.get('/newUser', (req, res) => {
   res.render('newUser');
 });
 
+app.get('/logout', (req, res) => {
+  res.redirect(303, '/');
+  sess.userId = "";
+});
+
 app.get('/settings', (req, res) => {
   let user = userLoggedin(req.session);
   if (user === false) {
@@ -199,10 +204,7 @@ app.post('/updateUser', (req, res) => {
   res.redirect(303, '/settings');
 });
 
-app.post('/logout', (req, res) => {
-  sess.userId = "";
-  res.redirect(303, '/');
-});
+
 
 app.get('/message', (req, res) => {
   res.render('message');
