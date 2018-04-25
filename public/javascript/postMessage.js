@@ -5,8 +5,8 @@ function postData(uid) {
   if (message === '') return;
 
   let messRef = firebase.database().ref('Messages/' + uid);
-  let data = {message: message, likes: 0};
-  messRef.child(timestamp).set(data);
+  let data = {message: message, likes: 0, timestamp: timestamp};
+  messRef.push(data);
   document.getElementById('messageContent').value = '';
 }
 

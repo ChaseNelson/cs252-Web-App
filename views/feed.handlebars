@@ -20,22 +20,26 @@
   let messDiv = document.getElementById('messages');
   messDiv.innerHTML = '';
   let info = {};
+  let mess = [];
   let uref = firebase.database().ref('Users/{{myUid}}');
   let messRef = firebase.database().ref('Messages');
-  messRef.on('value', (data) => {
+  messRef.orderByKey().on('value', (data) => {
+    messDiv.innerHTML = '';
     let v = data.val();
+    let mess = [];
     for (let key in v) {
       for (let messKey in v[key]) {
         let messInfo = {};
-        messInfo.content = v[key][messKey].message;
-        messInfo.likes   = v[key][messKey].likes;
+        messInfo.content   = v[key][messKey].message;
+        messInfo.likes     = v[key][messKey].likes;
+        messInfo.timestamp = v[key][messKey].timestamp;
         let mRef = firebase.database().ref('Users/' + key);
         mRef.on('value', (data) => {
           messInfo.firstName = data.val().firstName;
           messInfo.lastName  = data.val().lastName;
           messInfo.uid       = key;
-
-          messDiv.innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" src="/images/dude.jpg"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + messInfo.uid + '"><strong>' + messInfo.firstName + ' ' + messInfo.lastName + '</strong></a><span class="text-muted" style="float:right;"> 	&nbsp '+ messInfo.likes +' likes</span> <span class="glyphicon glyphicon-thumbs-up"aria-hidden="true" style="float:right;" onclick="incLike()"></span></p></div><div class="panel-body"><p>'+ messInfo.content +'</p></div></div></div></div>';
+          mess.push(messInfo);
+          messDiv.innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" src="/images/dude.jpg"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + messInfo.uid + '"><strong>' + messInfo.firstName + ' ' + messInfo.lastName + '</strong></a><span class="text-muted" style="float:right;"> 	&nbsp '+ messInfo.likes +' likes</span> <span style="float:right;"class="glyphicon glyphicon-thumbs-up" aria-hidden="true" onclick="incLike()"></span></p></div><div class="panel-body"><p>'+ messInfo.content +'</p></div></div></div></div>';
         });
       }
     }
