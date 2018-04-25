@@ -35,7 +35,7 @@
         messInfo.timestamp = v[key][messKey].timestamp;
         messInfo.key       = messKey;
         let mRef = firebase.database().ref('Users/' + key);
-        mRef.on('value', (data) => {
+        mRef.once('value', (data) => {
           messInfo.firstName = data.val().firstName;
           messInfo.lastName  = data.val().lastName;
           messInfo.uid       = key;
