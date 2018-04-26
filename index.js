@@ -79,10 +79,6 @@ app.get('/newUser', (req, res) => {
   res.render('newUser');
 });
 
-app.get('/confirm', (req, res) => {
-  res.render('confirm');
-});
-
 app.get('/results', (req, res) => {
   let search = req.query.search;
   let user = userLoggedin(req.session);
@@ -148,6 +144,11 @@ app.get('/profile/:uid', (req, res) => {
         info.uFirstName = data.val().firstName;
         info.uLastName  = data.val().lastName;
         info.uSummary   = data.val().summary;
+        if (typeof val.profilePic !== 'undefined') {
+          if (val.profilePic !== '') {
+            info.uProfilePic = data.val().profilePic;
+          }
+        }
         return res.render('profile', info);
       });
     });
@@ -188,12 +189,12 @@ app.post('/login', (req, res) => {
     if (user) {
       // User is signed in.
       let sess = req.session;
-      let name, email, uid;
-      name     = user.displayName;
-      email    = user.email;
-      uid      = user.uid;
-      sess.userId = uid;
-      return res.redirect(303, '/feed');
+      let uid  = user.uid;
+      if (user.email === req.body.email) {
+        console.log(req.body.email + ' logged in');
+        sess.userId = uid;
+        return res.redirect(303, '/feed');
+      }
     }
   });
 });
@@ -225,7 +226,7 @@ app.post('/updateUser', (req, res) => {
   const summary   = req.body.summary;
   let userRef = firebase.database().ref('Users').child(uid)
   let data = {firstName: firstName, lastName: lastName, summary: summary}
-  userRef.set(data, (err) => {
+  userRef.update(data, (err) => {
     if (err) {
       console.error(err);
     } else {
@@ -262,32 +263,6 @@ app.post('/search', (req, res) => {
   let search = req.body.search;
   search = encodeURIComponent(search);
   res.redirect('/results?search=' + search);
-});
-
-app.post('/deleteUser', (req, res) => {
-  const email = req.body.email;
-  const pass  = req.body.password;
-  const auth  = firebase.auth();
-  const uid   = req.session.userId;
-
-  const promise = auth.signInWithEmailAndPassword(email, pass);
-  promise.catch(err =>  {
-    console.error(err.message);
-    return res.redirect(303, '/settings');
-  });
-
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // delete the user
-      firebase.auth().currentUser.delete();
-
-      firebase.database().ref('Users').child(uid).set({}, (err) => {  // clear all users info
-        firebase.database().ref('Messages').child(uid).set({}, (err) => {  // clear all messages by user
-          res.redirect(303, '/');
-        })
-      });
-    }
-  });
 });
 
 app.post('/newComment', (req, res) => {
