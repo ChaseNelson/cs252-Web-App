@@ -53,14 +53,12 @@ app.use((err, req, res, next) => {
 });
 
 function userLoggedin(sess) {
-  // console.log("Sess :: " + sess.userId);
   if (typeof sess.userId == 'undefined') {
     return false;
   }
   let Uref = firebase.database().ref('Users');
-  Uref.on('value', (data) => {
-    data = data.val()
-    // console.log(typeof data[sess.userId] !== 'undefined');
+  Uref.once('value', (data) => {
+    data = data.val();
     if (typeof data[sess.userId] !== 'undefined') return true;
     return false;
   }, (err) => {
@@ -96,23 +94,31 @@ app.get('/settings', (req, res) => {
     uref.once('value', (data) => {
       let val = data.val();
       info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName};
+      return res.render('settings', info);
     });
-    return res.render('settings', info);
   }
 });
 
 app.get('/profile/:uid', (req, res) => {
-  console.log('/profile');
   let user = userLoggedin(req.session);
   if (user === false) {
     res.redirect(303, '/');
   } else {
-    console.log('valid login');
     let uref = firebase.database().ref('Users/' + req.session.userId);
     uref.once('value', (data) => {
-      let val = data.val();
+      let val  = data.val();
       let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, uid: req.params.uid};
-      return res.render('profile', info);
+      if (typeof val.summary !== 'undefined') {
+        if (val.summary !== '') {
+          info.summary = val.summary;
+        }
+      }
+      firebase.database().ref('Users').child(req.params.uid).once('value', (data) => {
+        info.uFirstName = data.val().firstName;
+        info.uLastName  = data.val().lastName;
+        info.uSummary   = data.val().summary;
+        return res.render('profile', info);
+      });
     });
   }
 });
@@ -123,7 +129,7 @@ app.get('/feed', (req, res) => {
     res.redirect(303, '/');
   } else {
     let uref = firebase.database().ref('Users/' + req.session.userId);
-    uref.on('value', (data) => {
+    uref.once('value', (data) => {
       let val = data.val();
       let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName};
       res.render('feed', info);
@@ -181,14 +187,12 @@ app.post('/updateUser', (req, res) => {
   const firstName = req.body.firstName;
   const lastName  = req.body.lastName;
   const summary   = req.body.summary;
-  console.log(uid + ' ' + firstName + ' '+ lastName + ' ' + summary);
   let userRef = firebase.database().ref('Users').child(uid)
   let data = {firstName: firstName, lastName: lastName, summary: summary}
   userRef.set(data, (err) => {
     if (err) {
       console.error(err);
     } else {
-      console.log('Done');
       res.redirect(303, '/settings');
     }
   });
