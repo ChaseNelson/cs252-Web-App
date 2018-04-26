@@ -111,6 +111,11 @@ app.get('/settings', (req, res) => {
     uref.once('value', (data) => {
       let val = data.val();
       info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName};
+      if (typeof val.profilePic !== 'undefined') {
+        if (val.profilePic !== '') {
+          info.profilePic = val.profilePic;
+        }
+      }
       return res.render('settings', info);
     });
   }
@@ -128,6 +133,11 @@ app.get('/profile/:uid', (req, res) => {
       if (typeof val.summary !== 'undefined') {
         if (val.summary !== '') {
           info.summary = val.summary;
+        }
+      }
+      if (typeof val.profilePic !== 'undefined') {
+        if (val.profilePic !== '') {
+          info.profilePic = val.profilePic;
         }
       }
       firebase.database().ref('Users').child(req.params.uid).once('value', (data) => {
@@ -149,6 +159,11 @@ app.get('/feed', (req, res) => {
     uref.once('value', (data) => {
       let val = data.val();
       let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName};
+      if (typeof val.profilePic !== 'undefined') {
+        if (val.profilePic !== '') {
+          info.profilePic = val.profilePic;
+        }
+      }
       res.render('feed', info);
     });
   }
@@ -211,6 +226,30 @@ app.post('/updateUser', (req, res) => {
       console.error(err);
     } else {
       res.redirect(303, '/settings');
+    }
+  });
+});
+
+app.post('/pictureUser', (req, res) => {
+  let form = new multiparty.Form();
+  let uid = req.session.userId;
+  let time = Date.now();
+  form.parse(req, (err, fields, files) => {
+    let file = files['img'][0];
+    if (file['originalFilename'] !== '') {
+      let tmp_path = file['path'];
+      let fileName = time + file['originalFilename'];
+      let target_path = './public/images/profiles/' + fileName;
+      let dir = './public/images/profiles/';
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+      fs.renameSync(tmp_path, target_path);
+      let data = {profilePic: fileName};
+      console.log(data);
+      firebase.database().ref('Users').child(uid).update(data, (err) => {
+        res.redirect(303, '/feed');
+      });
     }
   });
 });
