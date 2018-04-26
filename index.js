@@ -174,7 +174,7 @@ app.get('/feed', (req, res) => {
   }
 });
 
-app.get('/confirm' (req, res) => {
+app.get('/confirm', (req, res) => {
   let user = userLoggedin(req.session);
   if (user === false) {
     res.redirect(303, '/');
