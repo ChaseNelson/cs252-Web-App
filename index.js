@@ -226,7 +226,7 @@ app.post('/updateUser', (req, res) => {
   const summary   = req.body.summary;
   let userRef = firebase.database().ref('Users').child(uid)
   let data = {firstName: firstName, lastName: lastName, summary: summary}
-  userRef.set(data, (err) => {
+  userRef.update(data, (err) => {
     if (err) {
       console.error(err);
     } else {
