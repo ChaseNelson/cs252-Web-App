@@ -90,6 +90,11 @@ app.get('/results', (req, res) => {
     uref.once('value', (data) => {
       let val = data.val();
       info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, search: search};
+      if (typeof val.profilePic !== 'undefined') {
+        if (val.profilePic !== '') {
+          info.profilePic = val.profilePic;
+        }
+      }
       return res.render('searchResults', info);
     });
   }
