@@ -15,15 +15,15 @@
 <script type="text/javascript">
   let search = '{{search}}';
   let leadsRef = firebase.database().ref('Users');
-  leadsRef.on('value', function(snapshot) {
+  leadsRef.on('value', (data) => {
     document.getElementById('searchResults').innerHTML = '';
-    snapshot.forEach(function(childSnapshot) {
-      let childData = childSnapshot.val();
+    data = data.val();
+    for (let key in data) {
+      let childData = data[key];
       let bigString = childData.firstName + ' ' + childData.lastName + ' ' + childData.email;
       if (bigString.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-        console.log(childData);
-      document.getElementById('searchResults').innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" id="hide" src="/images/dude.jpg"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + childData.uid + '"><strong>' + childData.firstName + ' ' + childData.lastName + '</strong></a><span style="float:right;" aria-hidden="true" ></span></p></div><div class="panel-body"><p>'+ childData.summary +'</p> </div></div></div></div>';
+        document.getElementById('searchResults').innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" id="hide" src="/images/dude.jpg"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + key + '"><strong>' + childData.firstName + ' ' + childData.lastName + '</strong></a><span style="float:right;" aria-hidden="true" ></span></p></div><div class="panel-body"><p>'+ childData.summary +'</p> </div></div></div></div>';
       }
-    });
+    }
   });
 </script>

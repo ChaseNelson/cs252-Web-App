@@ -90,8 +90,8 @@ app.get('/results', (req, res) => {
     uref.once('value', (data) => {
       let val = data.val();
       info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, search: search};
+      return res.render('searchResults', info);
     });
-    return res.render('searchResults', info);
   }
 
 });
