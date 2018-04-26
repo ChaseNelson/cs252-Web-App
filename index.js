@@ -303,11 +303,11 @@ app.post('/deleteUser', (req, res) => {
 
       firebase.database().ref('Users').child(uid).set({}, (err) => {  // clear all users info
         firebase.database().ref('Messages').child(uid).set({}, (err) => {  // clear all messages by user
-          res.redirect(303, '/');
+          return res.redirect(303, '/');
         })
       });
     }
-    res.redirect(303, '/settings');
+    return res.redirect(303, '/settings');
   });
 });
 
