@@ -3,7 +3,7 @@
     <nav class="navbar"></nav>
     <div class="row">
       <div class="col-lg-4">
-        <img class="img-fluid rounded img-thumbnail" src="/images/dude.jpg" width=200px height=200px alt="">
+        <img class="img-fluid rounded img-thumbnail" src="/images/dude.jpg" width=200px height=200px alt="profile picture">
         <div class="col">
           <div class="card h-100">
             <div class="card-body"><br></div>
@@ -19,27 +19,40 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-4">
-        <div class="container">
-          <h2>Change your settings</h2>
-          <form class="updateUser" action="/updateUser" method="post">
-            <div class="form-group" id="formG">
-              <label for="firstname">Change First Name:</label>
-              <input type="text" class="form-control" id="firstname" name="firstName" value="{{firstName}}">
-            </div>
-            <div class="form-group" id="formG">
-              <label for="lastname">Change Last Name:</label>
-              <input type="text" class="form-control" id="lastname" name="lastName" value="{{lastName}}">
-            <div class="form-group">
-              <br>
-              <label for="message">&nbspUpdate your summary:</label>
-            <textarea class="form-control" id="summary" name="summary" rows="5" cols="100">{{summary}}</textarea>
+      <div class="col-lg-8">
+        <h2>Change your settings</h2>
+        <form class="updateUser" action="/updateUser" method="post">
+          <div class="form-group" id="formG">
+            <label for="firstname">Change First Name:</label>
+            <input type="text" class="form-control" id="firstName" name="firstName">
           </div>
-            <input type="hidden" name="uid" value="{{myUid}}">
-            <button type="submit" class="btn btn-default">Update settings</button>
-          </form>
-        </div>
+          <div class="form-group" id="formG">
+            <label for="lastname">Change Last Name:</label>
+            <input type="text" class="form-control" id="lastName" name="lastName">
+          </div>
+          <div class="form-group">
+            <label for="summary">&nbspUpdate your summary:</label>
+            <input type="text" class="form-control" id="summary" name="summary">
+          </div>
+          <input type="hidden" name="uid" value="{{myUid}}">
+          <input type="submit" name="submit" value="Post">
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  let firstNameDiv = document.getElementById('firstName');
+  let lastNameDiv  = document.getElementById('lastName');
+  let summaryDiv   = document.getElementById('summary');
+
+  let userRef = firebase.database().ref('Users').child('{{myUid}}')
+  userRef.once('value', (data) => {
+    firstNameDiv.value = data.val().firstName;
+    lastNameDiv.value = data.val().lastName;
+    if (typeof data.val().summary !== 'undefined') {
+      summaryDiv.value = data.val().summary;
+    }
+  })
+</script>

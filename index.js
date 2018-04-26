@@ -82,48 +82,37 @@ app.get('/newUser', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  res.redirect(303, '/');
   req.session.userId = "";
+  return res.redirect(303, '/');
 });
 
 app.get('/settings', (req, res) => {
   let user = userLoggedin(req.session);
+  let info = {};
   if (user === false) {
     res.redirect(303, '/');
   } else {
     let uref = firebase.database().ref('Users/' + req.session.userId);
-    uref.on('value', (data) => {
+    uref.once('value', (data) => {
       let val = data.val();
-      let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, email: val.email};
-      if (typeof val.summary !== 'undefined') {
-        if (val.summary !== '') {
-          info.summary = val.summary;
-        }
-      }
-      console.log(info);
-      res.render('settings', info);
-    }, (err) =>{
-      console.error('Error!');
-      console.error(err);
-    })
+      info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName};
+    });
+    return res.render('settings', info);
   }
 });
 
 app.get('/profile/:uid', (req, res) => {
+  console.log('/profile');
   let user = userLoggedin(req.session);
   if (user === false) {
     res.redirect(303, '/');
   } else {
+    console.log('valid login');
     let uref = firebase.database().ref('Users/' + req.session.userId);
-    uref.on('value', (data) => {
+    uref.once('value', (data) => {
       let val = data.val();
       let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, uid: req.params.uid};
-      if (typeof val.summary !== 'undefined') {
-        if (val.summary !== '') {
-          info.summary = val.summary;
-        }
-      }
-      res.render('profile', info);
+      return res.render('profile', info);
     });
   }
 });
@@ -162,7 +151,7 @@ app.post('/login', (req, res) => {
       email    = user.email;
       uid      = user.uid;
       sess.userId = uid;
-      res.redirect(303, '/feed');
+      return res.redirect(303, '/feed');
     }
   });
 });
@@ -184,26 +173,25 @@ app.post('/createUser', (req, res) => {
       console.log('not logged in');
     }
   });
-  res.redirect(303, '/');
+  return res.redirect(303, '/');
 });
 
 app.post('/updateUser', (req, res) => {
-  const uid       = req.body.uid;
+  const uid       = req.session.userId;
   const firstName = req.body.firstName;
   const lastName  = req.body.lastName;
   const summary   = req.body.summary;
-
-  let userRef = firebase.database().ref('Users');
-  if (summary !== ' ') {
-    userRef.child(uid).update({firstName: firstName, lastName: lastName, summary: summary}).then(() => {
+  console.log(uid + ' ' + firstName + ' '+ lastName + ' ' + summary);
+  let userRef = firebase.database().ref('Users').child(uid)
+  let data = {firstName: firstName, lastName: lastName, summary: summary}
+  userRef.set(data, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('Done');
       res.redirect(303, '/settings');
-    });
-  } else {
-    let data = {firstName: firstName, lastName: lastName};
-    userRef.child(uid).update(data).then(() => {
-      res.redirect(303, '/settings');
-    });
-  }
+    }
+  });
 });
 
 

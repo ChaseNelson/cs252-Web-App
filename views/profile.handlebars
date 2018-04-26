@@ -13,11 +13,7 @@
         <img class="img-fluid rounded img-thumbnail" src="/images/dude.jpg" alt="profile picture" id="hide">
         <div class="col">
           <div class="card h-100">
-            {{#if summary}}
-              <div class="card-body">
-                <h2 class ="card-text">{{firstName}} {{lastName}}: {{summary}}</p>
-              </div>
-            {{/if}}
+            <div class="summary"></div>
           </div>
         </div>
       </div>
@@ -58,4 +54,11 @@
       })
     }
   })
+
+  let sumDiv = document.getElementById('summary');
+  sumDiv.innerHTML = '';
+  let userRef = firebase.database().ref('Users').child('{{uid}}');
+  userRef.on('value', (data) => {
+    sumDiv.innerHTML = '<div class="card-body><h2 class="card-text">' + data.val().firstName + ' ' + data.val().lastName + ': ' + data.val().summary + '</h2></div>"'
+  });
 </script>
