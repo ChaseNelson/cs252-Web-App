@@ -174,25 +174,6 @@ app.get('/feed', (req, res) => {
   }
 });
 
-app.get('/confirm', (req, res) => {
-  let user = userLoggedin(req.session);
-  if (user === false) {
-    res.redirect(303, '/');
-  } else {
-    let uref = firebase.database().ref('Users/' + req.session.userId);
-    uref.once('value', (data) => {
-      let val = data.val();
-      let info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName}
-      if (typeof val.profilePic !== 'undefined') {
-        if (val.profilePic !== '') {
-          info.profilePic = val.profilePic;
-        }
-      }
-      res.render('confirm', info);
-    });
-  }
-})
-
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const pass  = req.body.password;
