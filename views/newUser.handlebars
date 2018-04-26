@@ -1,0 +1,27 @@
+<script type="text/javascript">
+  document.getElementById('myNavBar').innerHTML = "<div class=\"container-fluid\"><div class=\"navbar-header\"><p class=\"navbar-brand\">BookFace</p><img src=\"/images/043_success-mail.gif\" width=\"100px\" height=\"50px\"></div><ul class=\"nav navbar-nav navbar-right\"><li><a href=\"/\">Login</a></li></ul></div>";
+</script>
+
+<div class="container" align="center">
+  <h2>Create an account!</h2>
+  <form class="createUser" action="/createUser" method="post">
+    <div class="form-group" id="formG">
+      <label for="firstName">First Name:</label>
+      <input type="text" class="form-control" id="firstName" placeholder="Enter first name" name="firstName">
+    </div>
+    <div class="form-group" id="formG">
+      <label for="lastName">Last Name:</label>
+      <input type="text" class="form-control" id="lastName" placeholder="Enter last name" name="lastName">
+    </div>
+    <div class="form-group" id="formG">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+    </div>
+    <div class="form-group" id="formG">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+    </div>
+
+    <button type="submit" class="btn btn-default">Create new user</button>
+  </form>
+</div>
