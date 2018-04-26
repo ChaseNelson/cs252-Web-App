@@ -3,7 +3,11 @@
     <nav class="navbar"></nav>
     <div class="row">
       <div class="col-lg-4">
-        <img class="img-fluid rounded img-thumbnail" src="/images/dude.jpg" width=200px height=200px alt="profile picture">
+        {{#if profilePic}}
+          <img class="img-fluid rounded img-thumbnail" src="/images/profiles/{{profilePic}}" width=200px height=200px alt="profile picture">
+        {{else}}
+          <img class="img-fluid rounded img-thumbnail" src="/images/dude.jpg" width=200px height=200px alt="profile picture">
+        {{/if}}
         <div class="col">
           <div class="card h-100">
             <div class="card-body"><br></div>

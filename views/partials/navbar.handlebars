@@ -15,7 +15,11 @@
     <ul class="nav navbar-nav navbar-right">
         <li>
           <a href="/profile/{{myUid}}">{{firstName}} {{lastName}}
-            <img src="/images/dude.jpg" width=25px class="img-thumbnail" aria-hidden="true">
+            {{#if profilePic}}
+              <img src="/images/profiles/{{profilePic}}" width=25px class="img-thumbnail" aria-hidden="true">
+            {{else}}
+              <img src="/images/dude.jpg" width=25px class="img-thumbnail" aria-hidden="true">
+            {{/if}}
           </a>
         </li>
         <li>

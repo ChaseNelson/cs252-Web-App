@@ -22,7 +22,11 @@
       let childData = data[key];
       let bigString = childData.firstName + ' ' + childData.lastName + ' ' + childData.email;
       if (bigString.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-        document.getElementById('searchResults').innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" id="hide" src="/images/dude.jpg"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + key + '"><strong>' + childData.firstName + ' ' + childData.lastName + '</strong></a><span style="float:right;" aria-hidden="true" ></span></p></div><div class="panel-body"><p>'+ childData.summary +'</p> </div></div></div></div>';
+        if (typeof childData.profilePic !== 'undefined') {
+          document.getElementById('searchResults').innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" id="hide" src="/images/profiles/' + childData.profilePic + '"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + key + '"><strong>' + childData.firstName + ' ' + childData.lastName + '</strong></a><span style="float:right;" aria-hidden="true" ></span></p></div><div class="panel-body"><p>'+ childData.summary +'</p> </div></div></div></div>';
+        } else {
+          document.getElementById('searchResults').innerHTML += '<div class="row"><div class="col-sm-1"><img class="img-thumbnail" id="hide" src="/images/dude.jpg"></div><div class="col-sm-12 col-md-12 col-lg-8"><div class="panel panel-default"><div class="panel-heading"><p style="text-align:left;"><a href="/profile/' + key + '"><strong>' + childData.firstName + ' ' + childData.lastName + '</strong></a><span style="float:right;" aria-hidden="true" ></span></p></div><div class="panel-body"><p>'+ childData.summary +'</p> </div></div></div></div>';
+        }
       }
     }
   });
