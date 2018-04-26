@@ -284,34 +284,6 @@ app.post('/search', (req, res) => {
   res.redirect('/results?search=' + search);
 });
 
-app.post('/deleteUser', (req, res) => {
-  const email = req.body.email;
-  const pass  = req.body.password;
-  const auth  = firebase.auth();
-  const uid   = req.session.userId;
-
-  const promise = auth.signInWithEmailAndPassword(email, pass);
-  promise.catch(err =>  {
-    console.error(err.message);
-    return res.redirect(303, '/settings');
-  });
-
-  let unsub = firebase.auth().onAuthStateChanged((user) => {
-    if (user && user.email === email) {
-      // delete the user
-      unsub();
-      firebase.auth().currentUser.delete();
-
-      firebase.database().ref('Users').child(uid).set({}, (err) => {  // clear all users info
-        firebase.database().ref('Messages').child(uid).set({}, (err) => {  // clear all messages by user
-          return res.redirect(303, '/');
-        })
-      });
-    }
-    return res.redirect(303, '/settings');
-  });
-});
-
 app.post('/newComment', (req, res) => {
   /* TODO :: Add ability to make comments */
   /* this should work in theory BUT it has yet to be tested */
