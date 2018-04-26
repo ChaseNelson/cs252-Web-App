@@ -9,9 +9,8 @@
             <div class="card-body"><br></div>
             <div class="card-footer">
               <div class="form-group">
-                <label for="fieldAddImg" class="col-sm-2 control-label">Add Img</label>
-                <div class="col-sm-4">
-                  <input type="file" class="form-control" id="fieldAddImg" name="img">
+                <div>
+                  <input type="file" class=" btn btn-default" id="fieldAddImg" name="img" width="40px">
                 </div>
               </div>
               <!-- TODO : Button should change uses picture -->
@@ -36,12 +35,12 @@
             <label for="lastname">Change Last Name:</label>
             <input type="text" class="form-control" id="lastName" name="lastName">
           </div>
-          <div class="form-group">
+          <div class="form-group" id="formG">
             <label for="summary">&nbspUpdate your summary:</label>
             <input type="text" class="form-control" id="summary" name="summary">
           </div>
           <input type="hidden" name="uid" value="{{myUid}}">
-          <input type="submit" name="submit" value="Post">
+          <input type="submit" class="btn btn-default" name="submit" value="Update Settings">
         </form>
       </div>
     </div>
