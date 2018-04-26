@@ -14,7 +14,10 @@
         <div class="col">
           <div class="card h-100">
             <div class="card-body">
-              <h2 class="card-text">{{uFirstName}} {{uLastName}}{{#if uSummary}}<br><i>{{uSummary}}</i>{{/if}}</h2>
+              <h2 class="card-text">{{uFirstName}} {{uLastName}}</h2>
+            </div>
+            <div id="long">
+              {{#if uSummary}}<i>{{uSummary}}</i>{{/if}}
             </div>
           </div>
         </div>
