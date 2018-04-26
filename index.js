@@ -296,9 +296,10 @@ app.post('/deleteUser', (req, res) => {
     return res.redirect(303, '/settings');
   });
 
-  firebase.auth().onAuthStateChanged((user) => {
+  let unsub = firebase.auth().onAuthStateChanged((user) => {
     if (user && user.email === email) {
       // delete the user
+      unsub();
       firebase.auth().currentUser.delete();
 
       firebase.database().ref('Users').child(uid).set({}, (err) => {  // clear all users info
