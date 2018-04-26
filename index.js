@@ -59,7 +59,12 @@ function userLoggedin(sess) {
   let Uref = firebase.database().ref('Users');
   Uref.once('value', (data) => {
     data = data.val();
-    if (typeof data[sess.userId] !== 'undefined') return true;
+    if (typeof data[sess.userId] !== 'undefined') {
+      if (data[sess.userId].email === sess.email) {
+        console.log('checkLogin ', data[sess.userId]);
+        return true;
+      }
+    }
     return false;
   }, (err) => {
     console.error('Error!');
@@ -102,8 +107,11 @@ app.get('/results', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  req.session.userId = "";
-  return res.redirect(303, '/');
+  firebase.auth().signOut().then(()=>{
+    req.session.userId = "";
+    req.session.email  = "";
+    return res.redirect(303, '/');
+  }, (err) => {});
 });
 
 app.get('/settings', (req, res) => {
@@ -198,6 +206,7 @@ app.post('/login', (req, res) => {
       if (user.email === req.body.email) {
         console.log(req.body.email + ' logged in');
         sess.userId = uid;
+        sess.email  = email;
         return res.redirect(303, '/feed');
       }
     }
@@ -214,9 +223,11 @@ app.post('/createUser', (req, res) => {
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
-      let userRef = firebase.database().ref('Users');
-      let data = {email: firebaseUser.email, firstName: req.body.firstName, lastName: req.body.lastName};
-      userRef.child(firebaseUser.uid).set(data);
+      if (firebaseUser.email === email) {
+        let userRef = firebase.database().ref('Users');
+        let data = {email: firebaseUser.email, firstName: req.body.firstName, lastName: req.body.lastName};
+        userRef.child(firebaseUser.uid).set(data);
+      }
     } else {
       console.log('not logged in');
     }
@@ -268,29 +279,6 @@ app.post('/search', (req, res) => {
   let search = req.body.search;
   search = encodeURIComponent(search);
   res.redirect('/results?search=' + search);
-});
-
-app.post('/newComment', (req, res) => {
-  /* TODO :: Add ability to make comments */
-  /* this should work in theory BUT it has yet to be tested */
-  const messUid       = req.body.messUid;
-  const commUid       = req.session.userId;
-  const comment       = req.body.comment;
-  const messTimestamp = req.body.timestamp;
-  const commTimestamp = Date.now();
-
-  if (typeof commUid === 'undefined') {
-    res.redirect(303, '/');
-  } else if (typeof messUid === 'undefined') {
-    res.redirect(303, '/profile/' + commUid);
-  } else if (typeof comment === 'undefined' || comment === '\n' || comment === '' || comment === ' ') {
-    res.redirect(303, '/profile/' + messUid);
-  } else {
-    let commRef = firebase.database().ref('Messages/' + messUid + '/' + messTimestamp);
-    let data = {comment: comment};
-    commRef.child(commTimestamp).set(data);
-    res.redirect(303, '/profile/' + messUid);
-  }
 });
 
 app.use((req, res) => {
