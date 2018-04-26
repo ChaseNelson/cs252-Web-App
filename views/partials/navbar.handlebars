@@ -4,13 +4,15 @@
       <a href="/feed"class="navbar-brand">BookFace</a>
       <img src="/images/043_success-mail.gif" width="100px" height="50px">
     </div>
-    <form class="navbar-form navbar-left" action="#" method="post">
+    <form class="navbar-form navbar-left" action="/search" method="post">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Search">
       </div>
       <button type="button" class="btn btn-default" aria-label="Left Align">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-      </button></form><ul class="nav navbar-nav navbar-right">
+      </button>
+    </form>
+    <ul class="nav navbar-nav navbar-right">
         <li>
           <a href="/profile/{{myUid}}">{{firstName}} {{lastName}}
             <img src="/images/dude.jpg" width=25px class="img-thumbnail" aria-hidden="true">
@@ -30,3 +32,20 @@
     </ul>
   </div>
 </div>
+
+<script type="text/javascript">
+  function myFunc() {
+    let search = document.getElementById('searchBar').value;
+    let leadsRef = firebase.database().ref('Users');
+  leadsRef.on('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        let childData = childSnapshot.val();
+        let bigString = childData.firstName + ' ' + childData.lastName + ' ' + childData.email;
+        if (bigString.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+          console.log(childData);
+        }
+      });
+  });
+  }
+
+</script>
