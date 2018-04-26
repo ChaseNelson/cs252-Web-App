@@ -144,6 +144,11 @@ app.get('/profile/:uid', (req, res) => {
         info.uFirstName = data.val().firstName;
         info.uLastName  = data.val().lastName;
         info.uSummary   = data.val().summary;
+        if (typeof val.profilePic !== 'undefined') {
+          if (val.profilePic !== '') {
+            info.uProfilePic = data.val().profilePic;
+          }
+        }
         return res.render('profile', info);
       });
     });
