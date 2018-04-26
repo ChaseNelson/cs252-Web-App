@@ -81,6 +81,23 @@ app.get('/newUser', (req, res) => {
   res.render('newUser');
 });
 
+app.get('/results', (req, res) => {
+  let search = req.query.search;
+  let user = userLoggedin(req.session);
+  let info = {};
+  if (user === false) {
+    res.redirect(303, '/');
+  } else {
+    let uref = firebase.database().ref('Users/' + req.session.userId);
+    uref.once('value', (data) => {
+      let val = data.val();
+      info = {myUid: req.session.userId, firstName: val.firstName, lastName: val.lastName, search: search};
+    });
+    return res.render('searchResults', info);
+  }
+
+});
+
 app.get('/logout', (req, res) => {
   req.session.userId = "";
   return res.redirect(303, '/');
@@ -194,11 +211,11 @@ app.post('/updateUser', (req, res) => {
   });
 });
 
-
-
-app.get('/message', (req, res) => {
-  res.render('message');
-})
+app.post('/search', (req, res) => {
+  let search = req.body.search;
+  search = encodeURIComponent(search);
+  res.redirect('/results?search=' + search);
+});
 
 app.post('/newComment', (req, res) => {
   /* TODO :: Add ability to make comments */
