@@ -297,7 +297,7 @@ app.post('/deleteUser', (req, res) => {
   });
 
   firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
+    if (user && user.email === email) {
       // delete the user
       firebase.auth().currentUser.delete();
 
@@ -307,6 +307,7 @@ app.post('/deleteUser', (req, res) => {
         })
       });
     }
+    res.redirect(303, '/settings');
   });
 });
 
