@@ -13,6 +13,5 @@ A social media site in which you can create an account which includes your name,
 + Express
 + Firebase
 + Handlebars
-+ JQuery
 + Bootstrap
 + AWS
