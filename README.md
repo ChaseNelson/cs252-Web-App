@@ -1,4 +1,4 @@
-# cs252-Web-App
+# BookFace
 
 Name | Email
 -----|--------
